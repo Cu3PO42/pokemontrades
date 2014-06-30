@@ -39,6 +39,11 @@ li{
 	text-align: left;
 }
 
+#notesWrapper {
+	overflow: hidden;
+	height: 0;
+}
+
 #notes{
 	margin-left: auto ;
 	margin-right: auto ;
@@ -226,7 +231,8 @@ a:active {
 		<br/>
 
 		<div id="notesbutton" class="button slide">Additional Information</div>
-		<div id="notes" >
+		<div id="notesWrapper">
+		<div id="notes">
 			<ul>
 				<li>The bot can take up to 10 minutes to update your flair</li>
 				<li>Your In Game Name must be 12 characters or less</li>
@@ -234,6 +240,7 @@ a:active {
 				<li>When you click 'send' a pre-formatted reddit message will open in a new tab</li>
 				<li>Send the message without editing it at all</li>
 			</ul>
+		</div>
 		</div>
 
 		<br/>
@@ -261,8 +268,7 @@ $(function()
 	$secondfc_input.hide();
 	$tsv2_input = $("#tsvdiv2"); 
 	$tsv2_input.hide();
-	$notes = $("#notes"); 
-	$notes.hide();
+	$notes = $("#notes");
 	$addign = $("#addign");
 	$addign.click(function() { $secondign_input.slideToggle();});
 	$addfc = $("#addfc");
@@ -270,7 +276,15 @@ $(function()
 	$addtsv = $("#addtsv");
 	$addtsv.click(function() { $tsv2_input.slideToggle();});
 	$notesbutton = $("#notesbutton");
-	$notesbutton.click(function() { $notes.slideToggle("slow");});
+	var toggled = false;
+	$notesbutton.click(function() {
+		var height = $notes.height();
+		if (!toggled)
+			$("#notesWrapper").animate({height: height});
+		else
+			$("#notesWrapper").css({height: height}).animate({height: 0});
+		toggled = !toggled;
+	});
 	
 	$('input').each(function () {
     $(this).change(function () {
